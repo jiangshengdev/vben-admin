@@ -4,20 +4,19 @@ import { defineConfig } from '@vben/vite-config';
 
 import ElementPlus from 'unplugin-element-plus/vite';
 
-// Explicitly type the default export to avoid TS2742 when this file is compiled
-// under the node tsconfig as a referenced composite project.
+// 显式标注默认导出的类型，避免在 node tsconfig 作为引用组合项目编译时出现 TS2742。
 const config: VbenViteConfig = defineConfig(async () => {
   return {
     application: {},
     vite: {
       build: {
-        // Reduce tiny `js/css-*.js` wrapper chunks by extracting CSS into a single file.
-        // Trade-off: fewer requests but larger CSS payload.
+        // 通过将 CSS 提取为单个文件来减少细小的 `js/css-*.js` 包裹分块。
+        // 权衡：请求次数减少，但单次 CSS 体积更大。
         cssCodeSplit: false,
         rollupOptions: {
           output: {
-            // Try to avoid generating too many tiny chunks (target min ~100KB) which increases request count.
-            // Rollup will attempt to merge small chunks when it can do so safely (not a hard guarantee).
+            // 尽量避免生成过多的小分块（目标最小约 100KB），以减少请求数量。
+            // Rollup 会在保证安全的前提下尝试合并小分块（非强制保证）。
             experimentalMinChunkSize: 100 * 1024,
           },
         },
