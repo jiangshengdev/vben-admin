@@ -16,8 +16,8 @@ const config: VbenViteConfig = defineConfig(async () => {
         cssCodeSplit: false,
         rollupOptions: {
           output: {
-            // Try to avoid generating too many tiny chunks (<10KB) which increases request count.
-            // Rollup will attempt to merge small chunks when it can do so safely.
+            // Try to avoid generating too many tiny chunks (target min ~100KB) which increases request count.
+            // Rollup will attempt to merge small chunks when it can do so safely (not a hard guarantee).
             experimentalMinChunkSize: 100 * 1024,
           },
         },
