@@ -13,15 +13,6 @@ packages:
   - docs
   - playground
 
-overrides:
-  '@ast-grep/napi': 'catalog:'
-  '@ctrl/tinycolor': 'catalog:'
-  clsx: 'catalog:'
-  esbuild: 'catalog:'
-  jiti: 'catalog:'
-  pinia: 'catalog:'
-  vue: 'catalog:'
-
 catalog:
   '@ast-grep/napi': ^0.39.9
   '@changesets/changelog-github': ^0.5.2
@@ -201,3 +192,21 @@ catalog:
   yaml-eslint-parser: ^1.3.2
   zod: ^3.25.76
   zod-defaults: 0.1.3
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - core-js
+  - esbuild
+  - lefthook
+  - less
+  - unrs-resolver
+  - vue-demi
+
+overrides:
+  '@ast-grep/napi': 'catalog:'
+  '@ctrl/tinycolor': 'catalog:'
+  clsx: 'catalog:'
+  esbuild: 'catalog:'
+  jiti: 'catalog:'
+  pinia: 'catalog:'
+  vue: 'catalog:'
