@@ -9,6 +9,12 @@ declare module 'vue-router' {
 
 export interface VbenAdminProAppConfigRaw {
   VITE_GLOB_API_URL: string;
+  /**
+   * JSON map for resolving api url by current host/hostname.
+   * Example:
+   * {"vben-front.jiangshengdev.com":"https://vben-back.jiangshengdev.com/api"}
+   */
+  VITE_GLOB_API_URL_MAP?: string;
   VITE_GLOB_AUTH_DINGDING_CLIENT_ID: string;
   VITE_GLOB_AUTH_DINGDING_CORP_ID: string;
 }

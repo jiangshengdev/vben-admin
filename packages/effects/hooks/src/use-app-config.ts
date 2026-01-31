@@ -17,12 +17,15 @@ export function useAppConfig(
 
   const {
     VITE_GLOB_API_URL,
+    VITE_GLOB_API_URL_MAP,
     VITE_GLOB_AUTH_DINGDING_CORP_ID,
     VITE_GLOB_AUTH_DINGDING_CLIENT_ID,
   } = config;
 
+  const apiURL = resolveApiURL(VITE_GLOB_API_URL, VITE_GLOB_API_URL_MAP);
+
   const applicationConfig: ApplicationConfig = {
-    apiURL: VITE_GLOB_API_URL,
+    apiURL,
     auth: {},
   };
   if (VITE_GLOB_AUTH_DINGDING_CORP_ID && VITE_GLOB_AUTH_DINGDING_CLIENT_ID) {
@@ -33,4 +36,31 @@ export function useAppConfig(
   }
 
   return applicationConfig;
+}
+
+function resolveApiURL(defaultURL: string, rawMap?: string): string {
+  if (!rawMap || typeof rawMap !== 'string') return defaultURL;
+  if (typeof window === 'undefined') return defaultURL;
+
+  const host = window.location?.host;
+  const hostname = window.location?.hostname;
+
+  try {
+    const parsed = JSON.parse(rawMap) as unknown;
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      return defaultURL;
+    }
+
+    const map = parsed as Record<string, unknown>;
+
+    const byHost = host ? map[host] : undefined;
+    if (typeof byHost === 'string' && byHost) return byHost;
+
+    const byHostname = hostname ? map[hostname] : undefined;
+    if (typeof byHostname === 'string' && byHostname) return byHostname;
+  } catch {
+    // ignore invalid JSON and fallback to default
+  }
+
+  return defaultURL;
 }
