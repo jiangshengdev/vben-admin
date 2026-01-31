@@ -6,7 +6,7 @@
   "license": "MIT",
   "author": "",
   "scripts": {
-    "build": "nitro build",
+    "build": "nitro build && node scripts/bridge-vercel-output.mjs",
     "start": "nitro dev"
   },
   "dependencies": {
