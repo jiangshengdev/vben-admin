@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "@vben/types": "workspace:*",
+    "@types/node": "catalog:",
     "vite": "catalog:"
   }
 }
