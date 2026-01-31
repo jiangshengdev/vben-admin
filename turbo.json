@@ -33,7 +33,8 @@
     },
     "@vben/backend-mock#build": {
       "dependsOn": ["^build"],
-      "outputs": [".nitro/**", ".output/**"]
+      "cache": false,
+      "outputs": [".nitro/**", ".output/**", ".vercel/output/**"]
     },
     "test:e2e": {},
     "dev": {
