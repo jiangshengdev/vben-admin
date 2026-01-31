@@ -13,6 +13,14 @@ packages:
   - docs
   - playground
 
+overrides:
+  '@ast-grep/napi': 'catalog:'
+  '@ctrl/tinycolor': 'catalog:'
+  clsx: 'catalog:'
+  esbuild: 'catalog:'
+  jiti: 'catalog:'
+  pinia: 'catalog:'
+  vue: 'catalog:'
 catalog:
   '@ast-grep/napi': ^0.39.9
   '@changesets/changelog-github': ^0.5.2
@@ -201,12 +209,3 @@ onlyBuiltDependencies:
   - less
   - unrs-resolver
   - vue-demi
-
-overrides:
-  '@ast-grep/napi': 'catalog:'
-  '@ctrl/tinycolor': 'catalog:'
-  clsx: 'catalog:'
-  esbuild: 'catalog:'
-  jiti: 'catalog:'
-  pinia: 'catalog:'
-  vue: 'catalog:'
