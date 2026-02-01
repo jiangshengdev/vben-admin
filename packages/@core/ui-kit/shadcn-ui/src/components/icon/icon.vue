@@ -17,8 +17,19 @@ const props = defineProps<{
   icon?: Component | Function | string;
 }>();
 
-const isRemoteIcon = computed(() => {
-  return isString(props.icon) && isHttpUrl(props.icon);
+const isImageSrcIcon = computed(() => {
+  // 兼容三类场景：
+  // 1) http(s) 远程图片
+  // 2) public/ 下的相对路径（例如 /assets/logo.webp 或 /base/assets/logo.webp）
+  // 3) data url
+  return (
+    isString(props.icon) &&
+    (isHttpUrl(props.icon) ||
+      props.icon.startsWith('/') ||
+      props.icon.startsWith('./') ||
+      props.icon.startsWith('../') ||
+      props.icon.startsWith('data:'))
+  );
 });
 
 const isComponent = computed(() => {
@@ -29,7 +40,7 @@ const isComponent = computed(() => {
 
 <template>
   <component :is="icon as Component" v-if="isComponent" v-bind="$attrs" />
-  <img v-else-if="isRemoteIcon" :src="icon as string" v-bind="$attrs" />
+  <img v-else-if="isImageSrcIcon" :src="icon as string" v-bind="$attrs" />
   <IconifyIcon v-else-if="icon" v-bind="$attrs" :icon="icon as string" />
   <IconDefault v-else-if="fallback" v-bind="$attrs" />
 </template>
