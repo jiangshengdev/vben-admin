@@ -1,6 +1,8 @@
 /**
- * 生成 Iconify “预注册（配置引用图标）”子集文件：
- * - 来源：代码中 icon/activeIcon/icon="" 这类字符串图标引用（prefix:name）
+ * 生成 Iconify “预注册（配置/代码引用图标）”子集文件：
+ * - 来源：
+ *   - 代码中 icon/activeIcon/icon="" 这类字符串图标引用（prefix:name）
+ *   - 代码中 createIconifyIcon('prefix:name') 这类工厂函数引用
  * - 目标：把这些图标子集打进构建产物，减少运行时对 https://api.iconify.design 的请求
  * - 约束：不包含 `svg` 前缀（本项目的 svg 前缀走本地资源，不需要预注册）
  *
@@ -20,9 +22,14 @@ const root = process.cwd();
 
 const SEARCH_DIRS = ['apps', 'packages', 'internal', 'playground'];
 const FILE_GLOB = '*.{ts,tsx,js,jsx,mts,mjs,vue}';
+// 避免把“生成产物”本身再次扫描进来，导致示例字符串触发误收集（自引用）。
+const EXCLUDE_GLOB = '!packages/icons/src/iconify/preload-config-icons.ts';
 
-// A类：icon/activeIcon 配置中的字符串图标 + vue 模板中 icon="xxx:yyy"
-const RG_PATTERN_A = String.raw`\b(?:icon|activeIcon)\s*:\s*['"][a-z0-9-]+:[a-z0-9-]+['"]|\bicon=['"][a-z0-9-]+:[a-z0-9-]+['"]`;
+// 配置引用：icon/activeIcon 配置中的字符串图标 + Vue 模板中 icon="xxx:yyy"
+const RG_PATTERN_CONFIG_ICON = String.raw`\b(?:icon|activeIcon)\s*:\s*['"][a-z0-9-]+:[a-z0-9-]+['"]|\bicon=['"][a-z0-9-]+:[a-z0-9-]+['"]`;
+
+// 工厂调用：createIconifyIcon('xxx:yyy') 这类代码引用
+const RG_PATTERN_CREATE_ICONIFY_ICON = String.raw`\bcreateIconifyIcon\s*\(\s*['"][a-z0-9-]+:[a-z0-9-]+['"]\s*\)`;
 
 function runRg(pattern) {
   const args = [
@@ -30,12 +37,26 @@ function runRg(pattern) {
     '--pcre2',
     '-g',
     FILE_GLOB,
+    '-g',
+    EXCLUDE_GLOB,
     '-o',
     pattern,
     '-S',
     ...SEARCH_DIRS,
   ];
-  return execFileSync('rg', args, { cwd: root, encoding: 'utf8' });
+  try {
+    return execFileSync('rg', args, { cwd: root, encoding: 'utf8' });
+  } catch (error) {
+    // rg 找不到匹配时会退出码=1；这种情况返回空结果即可
+    if (
+      error &&
+      typeof error === 'object' &&
+      'status' in error &&
+      error.status === 1
+    )
+      return '';
+    throw error;
+  }
 }
 
 function extractIcon(str) {
@@ -87,13 +108,20 @@ function writeFileAtomic(filePath, content) {
   fs.renameSync(tmp, filePath);
 }
 
-const rawA = runRg(RG_PATTERN_A)
+const rawConfigMatches = runRg(RG_PATTERN_CONFIG_ICON)
   .split(/\r?\n/)
   .map((s) => s.trim())
   .filter(Boolean);
 
+const rawFactoryMatches = runRg(RG_PATTERN_CREATE_ICONIFY_ICON)
+  .split(/\r?\n/)
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+const rawMatches = [...rawConfigMatches, ...rawFactoryMatches];
+
 const icons = new Map(); // icon -> count
-for (const line of rawA) {
+for (const line of rawMatches) {
   const icon = extractIcon(line);
   if (!icon) continue;
   const [prefix] = icon.split(':', 1);
@@ -130,7 +158,7 @@ const outFile = path.join(
   'packages/icons/src/iconify/preload-config-icons.ts',
 );
 
-const header = `/*\n * 该文件由 scripts/iconify/generate-preload-config-icons.mjs 自动生成。\n * 用于预注册项目中“字符串 icon”用到的 Iconify 图标子集（不包含 svg 前缀）。\n * 请勿手动编辑。\n */\n`;
+const header = `/*\n * 该文件由 scripts/iconify/generate-preload-config-icons.mjs 自动生成。\n * 用于预注册项目中“配置/代码引用”的 Iconify 图标子集（不包含 svg 前缀）。\n * 请勿手动编辑。\n */\n`;
 
 // 直接输出可被 Prettier 格式化的对象字面量（数值分隔符由 eslint --fix 负责自动修复）。
 const collectionsJson = JSON.stringify(collections, null, 2);
@@ -142,7 +170,7 @@ const content =
   `const collections = ${collectionsJson} as unknown as IconifyJSON[];\n\n` +
   `let preloaded = false;\n\n` +
   `/**\n` +
-  ` * 预注册“配置中引用的 Iconify 图标”（icon/activeIcon/icon="" 中出现的 prefix:name），降低首屏/关键链的 Iconify 网络请求。\n` +
+  ` * 预注册“配置/代码中引用的 Iconify 图标”（icon/activeIcon/icon="" 或 createIconifyIcon('前缀:名称') 中出现的前缀与名称），降低首屏/关键链的 Iconify 网络请求。\n` +
   ` * 注意：本函数不会禁用网络加载；未预注册的图标仍可能在运行时被在线加载。\n` +
   ` */\n` +
   `export function preloadIconifyConfigIcons() {\n` +
