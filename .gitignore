@@ -52,3 +52,6 @@ vite.config.ts.*
 .cursor
 .vercel
 .env*.local
+
+# performance traces
+perf-traces/

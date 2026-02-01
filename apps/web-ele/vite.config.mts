@@ -7,7 +7,9 @@ import ElementPlus from 'unplugin-element-plus/vite';
 // 显式标注默认导出的类型，避免在 node tsconfig 作为引用组合项目编译时出现 TS2742。
 const config: VbenViteConfig = defineConfig(async () => {
   return {
-    application: {},
+    application: {
+      extraAppConfig: false,
+    },
     vite: {
       build: {
         // 通过将 CSS 提取为单个文件来减少细小的 `js/css-*.js` 包裹分块。
