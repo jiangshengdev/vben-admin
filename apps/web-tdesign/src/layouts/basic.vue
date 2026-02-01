@@ -22,10 +22,13 @@ import { $t } from '#/locales';
 import { useAuthStore } from '#/store';
 import LoginForm from '#/views/_core/authentication/login.vue';
 
+// 图片本地化：避免示例通知头像走第三方
+const defaultNotificationAvatar = preferences.app.defaultAvatar;
+
 const notifications = ref<NotificationItem[]>([
   {
     id: 1,
-    avatar: 'https://avatar.vercel.sh/vercel.svg?text=VB',
+    avatar: defaultNotificationAvatar,
     date: '3小时前',
     isRead: true,
     message: '描述信息描述信息描述信息',
@@ -33,7 +36,7 @@ const notifications = ref<NotificationItem[]>([
   },
   {
     id: 2,
-    avatar: 'https://avatar.vercel.sh/1',
+    avatar: defaultNotificationAvatar,
     date: '刚刚',
     isRead: false,
     message: '描述信息描述信息描述信息',
@@ -41,7 +44,7 @@ const notifications = ref<NotificationItem[]>([
   },
   {
     id: 3,
-    avatar: 'https://avatar.vercel.sh/1',
+    avatar: defaultNotificationAvatar,
     date: '2024-01-01',
     isRead: false,
     message: '描述信息描述信息描述信息',
@@ -49,7 +52,7 @@ const notifications = ref<NotificationItem[]>([
   },
   {
     id: 4,
-    avatar: 'https://avatar.vercel.sh/satori',
+    avatar: defaultNotificationAvatar,
     date: '1天前',
     isRead: false,
     message: '描述信息描述信息描述信息',
@@ -57,7 +60,7 @@ const notifications = ref<NotificationItem[]>([
   },
   {
     id: 5,
-    avatar: 'https://avatar.vercel.sh/satori',
+    avatar: defaultNotificationAvatar,
     date: '1天前',
     isRead: false,
     message: '描述信息描述信息描述信息',
@@ -66,7 +69,7 @@ const notifications = ref<NotificationItem[]>([
   },
   {
     id: 6,
-    avatar: 'https://avatar.vercel.sh/satori',
+    avatar: defaultNotificationAvatar,
     date: '1天前',
     isRead: false,
     message: '描述信息描述信息描述信息',

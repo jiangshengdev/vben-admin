@@ -4,7 +4,6 @@ import {
   VBEN_DOC_URL,
   VBEN_ELE_PREVIEW_URL,
   VBEN_GITHUB_URL,
-  VBEN_LOGO_URL,
   VBEN_NAIVE_PREVIEW_URL,
   VBEN_TD_PREVIEW_URL,
 } from '@vben/constants';
@@ -13,11 +12,14 @@ import { BookOpenText, Copyright, SvgTDesignIcon, User } from '@vben/icons';
 import { IFrameView } from '#/layouts';
 import { $t } from '#/locales';
 
+// 图片本地化：避免菜单图标走第三方（原默认值来自 unpkg）
+const VBEN_LOCAL_LOGO_URL = `${import.meta.env.BASE_URL || '/'}assets/logo-v1.webp`;
+
 const routes: RouteRecordRaw[] = [
   {
     meta: {
       badgeType: 'dot',
-      icon: VBEN_LOGO_URL,
+      icon: VBEN_LOCAL_LOGO_URL,
       order: 9998,
       title: $t('demos.vben.title'),
     },
