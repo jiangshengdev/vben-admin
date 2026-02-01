@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router';
 import { AuthenticationLoginExpiredModal } from '@vben/common-ui';
 import { VBEN_DOC_URL, VBEN_GITHUB_URL } from '@vben/constants';
 import { useWatermark } from '@vben/hooks';
-import { BookOpenText, CircleHelp, SvgGithubIcon } from '@vben/icons';
+import { BookOpenText, CircleHelp, SvgGithubIcon, User } from '@vben/icons';
 import {
   BasicLayout,
   LockScreen,
@@ -89,7 +89,7 @@ const menus = computed(() => [
     handler: () => {
       router.push({ name: 'Profile' });
     },
-    icon: 'lucide:user',
+    icon: User,
     text: $t('page.auth.profile'),
   },
   {

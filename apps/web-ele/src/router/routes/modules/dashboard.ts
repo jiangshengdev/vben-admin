@@ -1,11 +1,13 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import { AreaChart, LayoutDashboard } from '@vben/icons';
+
 import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
     meta: {
-      icon: 'lucide:layout-dashboard',
+      icon: LayoutDashboard,
       order: -1,
       title: $t('page.dashboard.title'),
     },
@@ -18,7 +20,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/dashboard/analytics/index.vue'),
         meta: {
           affixTab: true,
-          icon: 'lucide:area-chart',
+          icon: AreaChart,
           title: $t('page.dashboard.analytics'),
         },
       },
