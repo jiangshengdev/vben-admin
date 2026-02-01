@@ -137,9 +137,10 @@ const collectionsJson = JSON.stringify(collections);
 
 const content =
   `${header}\n` +
-  `import type { IconifyJSON } from '@iconify/types';\n\n` +
   `import { addCollection } from '@vben-core/icons';\n\n` +
-  `const collections: IconifyJSON[] = ${collectionsJson} as any;\n\n` +
+  `type IconifyJSON = Parameters<typeof addCollection>[0];\n\n` +
+  `// prettier-ignore\n` +
+  `const collections = ${collectionsJson} as unknown as IconifyJSON[];\n\n` +
   `let preloaded = false;\n\n` +
   `/**\n` +
   ` * 预注册“配置中引用的 Iconify 图标”（icon/activeIcon/icon="" 中出现的 prefix:name），降低首屏/关键链的 Iconify 网络请求。\n` +
@@ -149,7 +150,7 @@ const content =
   `  if (preloaded) return;\n` +
   `  preloaded = true;\n` +
   `  for (const collection of collections) {\n` +
-  `    addCollection(collection, true);\n` +
+  `    addCollection(collection);\n` +
   `  }\n` +
   `}\n`;
 
