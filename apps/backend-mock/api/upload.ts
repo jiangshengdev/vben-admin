@@ -8,7 +8,8 @@ export default eventHandler((event) => {
     return unAuthorizedResponse(event);
   }
   return useResponseSuccess({
-    url: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    // 方案1：返回站点绝对路径，让前端从自身站点的 public/assets 加载，避免第三方图片请求
+    url: '/assets/logo-v1.webp',
   });
   // return useResponseError("test")
 });
