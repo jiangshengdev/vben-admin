@@ -20,6 +20,7 @@ export {
   CircleHelp,
   CircleX,
   Copy,
+  Copyright,
   CornerDownLeft,
   Ellipsis,
   Expand,
@@ -64,6 +65,7 @@ export {
   Sun,
   SunMoon,
   SwatchBook,
+  User,
   UserRoundPen,
   X,
 } from 'lucide-vue-next';
