@@ -38,11 +38,21 @@ export function useAppConfig(
 }
 
 function resolveApiURL(defaultURL: string, rawMap?: string): string {
-  if (!rawMap || typeof rawMap !== 'string') return defaultURL;
   if (typeof window === 'undefined') return defaultURL;
 
   const host = window.location?.host;
   const hostname = window.location?.hostname;
+  // 本地 Nginx（localhost）托管的构建产物：强制走同源 `/api`，由 Nginx 反向代理到真实后端，
+  // 以避免跨域导致的预检 OPTIONS。
+  if (
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname === '[::1]'
+  ) {
+    return '/api';
+  }
+
+  if (!rawMap || typeof rawMap !== 'string') return defaultURL;
 
   try {
     const parsed = JSON.parse(rawMap) as unknown;
