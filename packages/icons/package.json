@@ -17,6 +17,7 @@
     }
   },
   "dependencies": {
+    "@iconify/types": "catalog:",
     "@vben-core/icons": "workspace:*"
   }
 }

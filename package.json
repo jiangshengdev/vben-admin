@@ -51,6 +51,7 @@
     "dev:tdesign": "pnpm -F @vben/web-tdesign run dev",
     "dev:play": "pnpm -F @vben/playground run dev",
     "format": "vsh lint --format",
+    "iconify:preload-config-icons": "node scripts/iconify/generate-preload-config-icons.mjs",
     "lint": "vsh lint",
     "postinstall": "pnpm -r run stub --if-present",
     "preinstall": "npx only-allow pnpm",

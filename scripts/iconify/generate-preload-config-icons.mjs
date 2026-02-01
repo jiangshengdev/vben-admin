@@ -132,14 +132,13 @@ const outFile = path.join(
 
 const header = `/*\n * 该文件由 scripts/iconify/generate-preload-config-icons.mjs 自动生成。\n * 用于预注册项目中“字符串 icon”用到的 Iconify 图标子集（不包含 svg 前缀）。\n * 请勿手动编辑。\n */\n`;
 
-// JSON 体积较大，保持 0 空格缩进以减少源码体积（最终 bundle 体积以压缩为准）
-const collectionsJson = JSON.stringify(collections);
+// 直接输出可被 Prettier 格式化的对象字面量（数值分隔符由 eslint --fix 负责自动修复）。
+const collectionsJson = JSON.stringify(collections, null, 2);
 
 const content =
   `${header}\n` +
   `import { addCollection } from '@vben-core/icons';\n\n` +
   `type IconifyJSON = Parameters<typeof addCollection>[0];\n\n` +
-  `// prettier-ignore\n` +
   `const collections = ${collectionsJson} as unknown as IconifyJSON[];\n\n` +
   `let preloaded = false;\n\n` +
   `/**\n` +
@@ -155,6 +154,19 @@ const content =
   `}\n`;
 
 writeFileAtomic(outFile, content);
+
+// 生成文件需要同时满足 ESLint 与 Prettier：
+// - eslint 用于修复 unicorn/numeric-separators-style（长数字分隔符）
+// - prettier 统一格式化输出
+execFileSync('pnpm', ['eslint', '--fix', outFile], {
+  cwd: root,
+  stdio: 'inherit',
+});
+execFileSync(
+  'pnpm',
+  ['prettier', '--cache', '--ignore-unknown', '--write', outFile],
+  { cwd: root, stdio: 'inherit' },
+);
 
 console.log(
   `Generated ${path.relative(root, outFile)} (prefixes=${prefixes.length}, icons=${icons.size})`,

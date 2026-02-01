@@ -36,6 +36,9 @@ catalogs:
     '@iconify/tailwind':
       specifier: ^1.2.0
       version: 1.2.0
+    '@iconify/types':
+      specifier: ^2.0.0
+      version: 2.0.0
     '@iconify/vue':
       specifier: ^5.0.0
       version: 5.0.0
@@ -958,7 +961,7 @@ importers:
     dependencies:
       '@commitlint/cli':
         specifier: 'catalog:'
-        version: 19.8.1(@types/node@24.10.9)(typescript@5.9.3)
+        version: 19.8.1(@types/node@25.1.0)(typescript@5.9.3)
       '@commitlint/config-conventional':
         specifier: 'catalog:'
         version: 19.8.1
@@ -1809,6 +1812,9 @@ importers:
 
   packages/icons:
     dependencies:
+      '@iconify/types':
+        specifier: 'catalog:'
+        version: 2.0.0
       '@vben-core/icons':
         specifier: workspace:*
         version: link:../@core/base/icons
@@ -11941,11 +11947,11 @@ snapshots:
 
   '@cloudflare/kv-asset-handler@0.4.2': {}
 
-  '@commitlint/cli@19.8.1(@types/node@24.10.9)(typescript@5.9.3)':
+  '@commitlint/cli@19.8.1(@types/node@25.1.0)(typescript@5.9.3)':
     dependencies:
       '@commitlint/format': 19.8.1
       '@commitlint/lint': 19.8.1
-      '@commitlint/load': 19.8.1(@types/node@24.10.9)(typescript@5.9.3)
+      '@commitlint/load': 19.8.1(@types/node@25.1.0)(typescript@5.9.3)
       '@commitlint/read': 19.8.1
       '@commitlint/types': 19.8.1
       tinyexec: 1.0.2
@@ -11992,7 +11998,7 @@ snapshots:
       '@commitlint/rules': 19.8.1
       '@commitlint/types': 19.8.1
 
-  '@commitlint/load@19.8.1(@types/node@24.10.9)(typescript@5.9.3)':
+  '@commitlint/load@19.8.1(@types/node@25.1.0)(typescript@5.9.3)':
     dependencies:
       '@commitlint/config-validator': 19.8.1
       '@commitlint/execute-rule': 19.8.1
@@ -12000,7 +12006,7 @@ snapshots:
       '@commitlint/types': 19.8.1
       chalk: 5.6.2
       cosmiconfig: 9.0.0(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@24.10.9)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig-typescript-loader: 6.2.0(@types/node@25.1.0)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -15134,9 +15140,9 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@24.10.9)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.2.0(@types/node@25.1.0)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
-      '@types/node': 24.10.9
+      '@types/node': 25.1.0
       cosmiconfig: 9.0.0(typescript@5.9.3)
       jiti: 2.6.1
       typescript: 5.9.3
