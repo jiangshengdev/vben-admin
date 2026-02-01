@@ -11,16 +11,15 @@ export function useAppConfig(
   isProduction: boolean,
 ): ApplicationConfig {
   // 生产环境下，直接使用 window._VBEN_ADMIN_PRO_APP_CONF_ 全局变量
-  const config = isProduction
-    ? window._VBEN_ADMIN_PRO_APP_CONF_
-    : (env as VbenAdminProAppConfigRaw);
+  const runtimeConfig = isProduction ? window._VBEN_ADMIN_PRO_APP_CONF_ : null;
+  const config = (runtimeConfig ?? env) as undefined | VbenAdminProAppConfigRaw;
 
   const {
-    VITE_GLOB_API_URL,
+    VITE_GLOB_API_URL = '',
     VITE_GLOB_API_URL_MAP,
     VITE_GLOB_AUTH_DINGDING_CORP_ID,
     VITE_GLOB_AUTH_DINGDING_CLIENT_ID,
-  } = config;
+  } = config ?? ({} as VbenAdminProAppConfigRaw);
 
   const apiURL = resolveApiURL(VITE_GLOB_API_URL, VITE_GLOB_API_URL_MAP);
 
