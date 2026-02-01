@@ -16,7 +16,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-let getIcons;
 const root = process.cwd();
 
 const SEARCH_DIRS = ['apps', 'packages', 'internal', 'playground'];
@@ -50,7 +49,7 @@ function findPnpmPackageDir(prefixWithPlus) {
   const match = entries
     .filter((e) => e.isDirectory() && e.name.startsWith(`${prefixWithPlus}@`))
     .map((e) => e.name)
-    .sort()[0];
+    .toSorted()[0];
   if (!match) {
     throw new Error(`未找到 pnpm 依赖目录：${prefixWithPlus}（请先安装依赖）`);
   }
@@ -70,7 +69,7 @@ const iconifyUtilsGetIconsPath = path.join(
 );
 
 // 直接从 pnpm 虚拟存储导入，避免根目录未声明依赖导致无法解析 @iconify/utils/@iconify/json。
-({ getIcons } = await import(pathToFileURL(iconifyUtilsGetIconsPath)));
+const { getIcons } = await import(pathToFileURL(iconifyUtilsGetIconsPath));
 
 function loadIconSet(prefix) {
   const file = path.join(iconifyJsonRoot, `${prefix}.json`);
@@ -109,11 +108,13 @@ for (const icon of icons.keys()) {
   iconsByPrefix.get(prefix).add(name);
 }
 
-const prefixes = [...iconsByPrefix.keys()].sort((a, b) => a.localeCompare(b));
+const prefixes = [...iconsByPrefix.keys()].toSorted((a, b) =>
+  a.localeCompare(b),
+);
 
 const collections = [];
 for (const prefix of prefixes) {
-  const names = [...iconsByPrefix.get(prefix)].sort((a, b) =>
+  const names = [...iconsByPrefix.get(prefix)].toSorted((a, b) =>
     a.localeCompare(b),
   );
   const iconSet = loadIconSet(prefix);
