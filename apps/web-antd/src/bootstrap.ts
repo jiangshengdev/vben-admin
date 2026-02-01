@@ -2,6 +2,7 @@ import { createApp, watchEffect } from 'vue';
 
 import { registerAccessDirective } from '@vben/access';
 import { registerLoadingDirective } from '@vben/common-ui/es/loading';
+import { preloadIconifyConfigIcons } from '@vben/icons';
 import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
 import '@vben/styles';
@@ -17,6 +18,9 @@ import App from './app.vue';
 import { router } from './router';
 
 async function bootstrap(namespace: string) {
+  // 预注册常用 Iconify 图标子集，减少运行时网络请求
+  preloadIconifyConfigIcons();
+
   // 初始化组件适配器
   await initComponentAdapter();
 
