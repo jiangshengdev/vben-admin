@@ -1,4 +1,5 @@
 export {
+  AreaChart,
   ArrowDown,
   ArrowLeft,
   ArrowLeftToLine,
@@ -37,6 +38,7 @@ export {
   Info,
   InspectionPanel,
   Languages,
+  LayoutDashboard,
   LoaderCircle,
   LockKeyhole,
   LogOut,
