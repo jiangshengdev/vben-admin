@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/anncwb/vue-vben-admin">
-    <img alt="VbenAdmin Logo" width="215" src="https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp">
+    <img alt="VbenAdmin Logo" width="215" src="https://vben-front.jiangshengdev.com/assets/logo-v1.webp">
   </a>
   <br>
   <br>

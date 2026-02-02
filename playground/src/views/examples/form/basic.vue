@@ -451,7 +451,7 @@ function handleSetFormValue() {
         name: 'example.png',
         status: 'done',
         uid: '-1',
-        url: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+        url: '/assets/logo-v1.webp',
       },
     ],
     mentions: '@afc163',
